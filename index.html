@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<script type="module">
+
+	import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js';
+	import { getAuth, 
+		GoogleAuthProvider, 
+		signInWithRedirect, 
+		getRedirectResult,
+		onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js';
+
+	const firebaseConfig = {
+	  apiKey: "AIzaSyCJNSq7dzBmxsTJHOYoa5l5FMAkO6GHdJA",
+	  authDomain: "kissflow-project.firebaseapp.com",
+	  projectId: "kissflow-project",
+	  storageBucket: "kissflow-project.appspot.com",
+	  messagingSenderId: "605959044676",
+	  appId: "1:605959044676:web:952f7a2f5148f8e97b4611"
+	};
+
+	const KISSFLOW_ACCOUNT_ID = "AcUgoqK4pdde"
+	const KISSFLOW_ACCESS_KEY_ID = "Ak65ddf2f2-f41c-4fa5-bfce-2dc223e28439"
+	const KISSFLOW_ACCESS_KEY_SECRET = "6phlOr59UtATv-ogdEu7kARHaRvrtx-OrpkoV8CPBYZxPGC1U9uIhGQHwVsHYBhhlJMlg8taoHbzsQ8djSBA"
+
+	async function getUserID(user_email){
+		const url = 'https://pucp.kissflow.com/dataset/2/' + KISSFLOW_ACCOUNT_ID + '/Dataset_Login_hash?Name=' + user_email;
+		const options = {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'X-Access-Key-Id': KISSFLOW_ACCESS_KEY_ID,
+				'X-Access-Key-Secret': KISSFLOW_ACCESS_KEY_SECRET
+			},
+			mode: 'cors',
+			credentials: 'include'
+		};
+
+		const response = await fetch(url, options);
+		const data = await response.json();
+	
+		return data;
+	}
+
+	async function activateUser(user_id){
+		const payload = [user_id]  
+		const url = 'https://pucp.kissflow.com/user/2/' + KISSFLOW_ACCOUNT_ID + '/activate';
+		const options = {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'X-Access-Key-Id': KISSFLOW_ACCESS_KEY_ID,
+				'X-Access-Key-Secret': KISSFLOW_ACCESS_KEY_SECRET
+			},
+			body: JSON.stringify(payload)
+		};
+
+		const response = await fetch(url, options);
+
+		return response.json();
+	}
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+
+	var provider = new GoogleAuthProvider();
+	const auth = getAuth(app);
+
+	getRedirectResult(auth)
+		.then((result) => {
+			if (result == null) {
+				signInWithRedirect(auth, provider);	
+			} else {
+				const user = result.user;
+				console.log(user.email);
+				getUserID(user.email).then( user_data => {
+					if (user_data.Alcanzo_licencia == "Sí") {
+						activateUser(user_data.User_Id).then( response => {
+							var h1 = document.getElementById("kissflow-response");
+							h1.innerHTML = "GOING TO KISSFLOW...";
+							window.location.replace("https://pucp.kissflow.com/view/home")
+						});
+					} else {
+						var h1 = document.getElementById("kissflow-response");
+						h1.innerHTML = "LO SENTIMOS. NO ALCANZARON LAS LICENCIAS";
+					}
+				});			
+			}
+		})
+		
+
+</script>
+	<body>
+		<h1 id="kissflow-response"></h1>
+	</body>
+</html>
+
