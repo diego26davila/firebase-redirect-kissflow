@@ -5,7 +5,10 @@ Firebase services:
 - Hosting
 - Authentication
 
-## Disable browser security to allow CORS:
+## 1. Create a new web app in Firebase Console:
+First you need to create a project. Follow these official instructions: https://firebase.google.com/docs/hosting/quickstart
+
+## 2. Disable browser security to allow CORS:
 `CorsOut.sh` is a shell script that opens a new browser window (Chrome in this case) with disabled security.
 
 `C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir="C:\Users\username\Desktop\chromeFile`
