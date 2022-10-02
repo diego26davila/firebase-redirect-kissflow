@@ -8,6 +8,10 @@ Firebase services:
 ## 1. Create a new web app in Firebase Console:
 First you need to create a project. Follow these official instructions: https://firebase.google.com/docs/hosting/quickstart
 
+Copy the web app Firebase configuration and paste it in the `index.html`
+
+![Alt text](https://github.com/diego26davila/firebase-redirect-kissflow/blob/main/appConfig.PNG)
+
 ## 2. Disable browser security to allow CORS:
 `CorsOut.sh` is a shell script that opens a new browser window (Chrome in this case) with disabled security.
 
