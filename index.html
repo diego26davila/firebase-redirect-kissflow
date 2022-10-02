@@ -10,20 +10,19 @@
 		onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js';
 
 	const firebaseConfig = {
-	  apiKey: "AIzaSyCJNSq7dzBmxsTJHOYoa5l5FMAkO6GHdJA",
-	  authDomain: "kissflow-project.firebaseapp.com",
-	  projectId: "kissflow-project",
-	  storageBucket: "kissflow-project.appspot.com",
-	  messagingSenderId: "605959044676",
-	  appId: "1:605959044676:web:952f7a2f5148f8e97b4611"
+		//Copy the Firebase SDK Config args related to your app
 	};
 
-	const KISSFLOW_ACCOUNT_ID = "AcUgoqK4pdde"
-	const KISSFLOW_ACCESS_KEY_ID = "Ak65ddf2f2-f41c-4fa5-bfce-2dc223e28439"
-	const KISSFLOW_ACCESS_KEY_SECRET = "6phlOr59UtATv-ogdEu7kARHaRvrtx-OrpkoV8CPBYZxPGC1U9uIhGQHwVsHYBhhlJMlg8taoHbzsQ8djSBA"
+	const ORGANIZATION_DOMAIN = //kissflow organization URI domain
+
+	const KISSFLOW_ACCOUNT_ID = // kissflow account id
+	const KISSFLOW_ACCESS_KEY_ID = // kissflow API authentication
+	const KISSFLOW_ACCESS_KEY_SECRET = // kissflow API authentication
+
+	const ALLOWLIST_DATASET_ID = // kissflow allowed users dataset id
 
 	async function getUserID(user_email){
-		const url = 'https://pucp.kissflow.com/dataset/2/' + KISSFLOW_ACCOUNT_ID + '/Dataset_Login_hash?Name=' + user_email;
+		const url = 'https://' + ORGANIZATION_DOMAIN + '.kissflow.com/dataset/2/' + KISSFLOW_ACCOUNT_ID + '/' + ALLOWLIST_DATASET_ID + '?Name=' + user_email;
 		const options = {
 			method: 'GET',
 			headers: {
